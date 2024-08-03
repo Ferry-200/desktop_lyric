@@ -9,6 +9,7 @@
 
 ![](images/image_1.png)
 ![](images/image_2.png)
+![](images/image_4.png)
 ![](images/image_3.png)
 
 自定义字体颜色有三种情况：
