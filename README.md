@@ -19,7 +19,9 @@
 
 这个桌面歌词组件也可以被其他音乐播放器使用。
 
-编译方法可以从 Flutter 文档中找到。如果编译 Release，编译产物在 [`build\windows\x64\runner\Release`](build\windows\x64\runner\Release) 目录。整个 Release 目录都是。可以重命名 Release 目录。
+可以直接使用已经编译好的版本，可以在 GitHub Release 找到。
+
+如果要编译的话，方法可以从 Flutter 文档中找到。如果编译 Release，编译产物在 [`build\windows\x64\runner\Release`](build\windows\x64\runner\Release) 目录。整个 Release 目录都是。可以重命名 Release 目录。
 
 使用类似于 `Process.start` 的方法启动编译出来的 `desktop_lyric.exe`，
 只需向 `stdin` 发送当前播放曲目和歌词等信息，并监听 `stdout` 获取上一曲、暂停/播放、下一曲和关闭桌面歌词的请求。
