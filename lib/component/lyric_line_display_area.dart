@@ -31,25 +31,22 @@ class LyricLineDisplayArea extends StatelessWidget {
           maxLines: 1,
         );
 
-        if (lyricLine.translation == null) {
-          return contentText;
-        }
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             contentText,
-            Text(
-              key: TRANSLATION_TEXT_KEY,
-              lyricLine.translation!,
-              style: TextStyle(
-                color: textColor,
-                fontSize: textDisplayController.translationFontSize,
-                fontWeight: FontWeight.bold,
-                shadows: kElevationToShadow[4],
+            if (lyricLine.translation != null)
+              Text(
+                key: TRANSLATION_TEXT_KEY,
+                lyricLine.translation!,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: textDisplayController.translationFontSize,
+                  fontWeight: FontWeight.bold,
+                  shadows: kElevationToShadow[4],
+                ),
+                maxLines: 1,
               ),
-              maxLines: 1,
-            ),
           ],
         );
       },
