@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'message.g.dart';
@@ -20,11 +22,11 @@ enum DesktopLyricMessageType {
   ThemeChangedMessage,
   UnlockMessage;
 
-  Map<String, dynamic> buildMessageJson(Message message) {
-    return {
+  String buildMessageJson(Message message) {
+    return json.encode({
       "type": name,
       "message": message._toJson(),
-    };
+    });
   }
 }
 

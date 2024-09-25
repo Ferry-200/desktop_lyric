@@ -23,26 +23,28 @@ class ActionRow extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () async {
-            final hWnd = win32.GetForegroundWindow();
+            hWnd = win32.GetForegroundWindow();
 
-            final exStyle = win32.GetWindowLongPtr(
-              hWnd,
-              win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
-            );
+            if (hWnd != null) {
+              final exStyle = win32.GetWindowLongPtr(
+                hWnd!,
+                win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+              );
 
-            win32.SetWindowLongPtr(
-              hWnd,
-              win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
-              exStyle |
-                  win32.WINDOW_EX_STYLE.WS_EX_LAYERED |
-                  win32.WINDOW_EX_STYLE.WS_EX_TRANSPARENT,
-            );
+              win32.SetWindowLongPtr(
+                hWnd!,
+                win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+                exStyle |
+                    win32.WINDOW_EX_STYLE.WS_EX_LAYERED |
+                    win32.WINDOW_EX_STYLE.WS_EX_TRANSPARENT,
+              );
 
-            stdout.write(
-              DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                const ControlEventMessage(ControlEvent.lock),
-              ),
-            );
+              stdout.write(
+                DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                  const ControlEventMessage(ControlEvent.lock),
+                ),
+              );
+            }
           },
           color: Color(theme.onSurface),
           icon: const Icon(Icons.lock),

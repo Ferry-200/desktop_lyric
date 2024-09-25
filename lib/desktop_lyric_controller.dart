@@ -4,6 +4,10 @@ import 'dart:io';
 import 'package:desktop_lyric/message.dart';
 import 'package:flutter/material.dart';
 
+import 'package:win32/win32.dart' as win32;
+
+int? hWnd;
+
 class DesktopLyricController {
   ValueNotifier<bool> isPlaying = ValueNotifier(false);
   ValueNotifier<bool> isDarkMode = ValueNotifier(false);
@@ -65,6 +69,7 @@ class DesktopLyricController {
             DesktopLyricMessageType.NowPlayingChangedMessage.name) {
           final nowPlayingMessage = NowPlayingChangedMessage.fromJson(content);
           nowPlaying.value = nowPlayingMessage;
+          lyricLine.value = const LyricLineChangedMessage("", Duration.zero);
         } else if (type ==
             DesktopLyricMessageType.LyricLineChangedMessage.name) {
           final lyricLineMessage = LyricLineChangedMessage.fromJson(content);
@@ -76,6 +81,21 @@ class DesktopLyricController {
         } else if (type == DesktopLyricMessageType.ThemeChangedMessage.name) {
           final themeMessage = ThemeChangedMessage.fromJson(content);
           theme.value = themeMessage;
+        } else if (type == DesktopLyricMessageType.UnlockMessage.name) {
+          if (hWnd != null) {
+            final exStyle = win32.GetWindowLongPtr(
+              hWnd!,
+              win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+            );
+
+            win32.SetWindowLongPtr(
+              hWnd!,
+              win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+              exStyle &
+                  ~win32.WINDOW_EX_STYLE.WS_EX_LAYERED &
+                  ~win32.WINDOW_EX_STYLE.WS_EX_TRANSPARENT,
+            );
+          }
         }
       } catch (err, stack) {
         stderr.write(err);
