@@ -45,6 +45,8 @@ enum ControlEvent {
 
 @JsonSerializable()
 class InitArgsMessage {
+  final bool isPlaying;
+
   /// now playing
   final String title;
 
@@ -66,6 +68,7 @@ class InitArgsMessage {
   final int onSurface;
 
   const InitArgsMessage(
+    this.isPlaying,
     this.title,
     this.artist,
     this.album,

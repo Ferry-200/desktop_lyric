@@ -8,6 +8,7 @@ part of 'message.dart';
 
 InitArgsMessage _$InitArgsMessageFromJson(Map<String, dynamic> json) =>
     InitArgsMessage(
+      json['isPlaying'] as bool,
       json['title'] as String,
       json['artist'] as String,
       json['album'] as String,
@@ -19,6 +20,7 @@ InitArgsMessage _$InitArgsMessageFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$InitArgsMessageToJson(InitArgsMessage instance) =>
     <String, dynamic>{
+      'isPlaying': instance.isPlaying,
       'title': instance.title,
       'artist': instance.artist,
       'album': instance.album,
@@ -136,7 +138,7 @@ Map<String, dynamic> _$ThemeChangedMessageToJson(
     };
 
 UnlockMessage _$UnlockMessageFromJson(Map<String, dynamic> json) =>
-    const UnlockMessage();
+    UnlockMessage();
 
 Map<String, dynamic> _$UnlockMessageToJson(UnlockMessage instance) =>
     <String, dynamic>{};
