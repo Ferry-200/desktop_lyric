@@ -1,6 +1,6 @@
 import 'package:desktop_lyric/component/foreground.dart';
 import 'package:desktop_lyric/message.dart';
-import 'package:desktop_lyric/player_states.dart';
+import 'package:desktop_lyric/desktop_lyric_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
@@ -21,7 +21,7 @@ class _DesktopLyricBodyState extends State<DesktopLyricBody> {
   @override
   Widget build(BuildContext context) {
     final theme = context.watch<ThemeChangedMessage>();
-    final transparent = PlayerStates.instance.themeMode.value == ThemeMode.dark
+    final transparent = DesktopLyricController.instance.isDarkMode.value
         ? BLACK_TRANSPARENT
         : WHITE_TRANSPARENT;
 
@@ -30,10 +30,10 @@ class _DesktopLyricBodyState extends State<DesktopLyricBody> {
       tween: isHovering
           ? ColorTween(
               begin: transparent,
-              end: theme.surfaceContainer,
+              end: Color(theme.surfaceContainer),
             )
           : ColorTween(
-              begin: theme.surfaceContainer,
+              begin: Color(theme.surfaceContainer),
               end: transparent,
             ),
       builder: (context, value, child) => ClipRRect(

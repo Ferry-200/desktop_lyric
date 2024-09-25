@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:desktop_lyric/component/foreground.dart';
 import 'package:desktop_lyric/message.dart';
-import 'package:desktop_lyric/player_states.dart';
+import 'package:desktop_lyric/desktop_lyric_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:win32/win32.dart' as win32;
 
 class ActionRow extends StatelessWidget {
   const ActionRow({super.key});
@@ -20,53 +22,82 @@ class ActionRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
+          onPressed: () async {
+            final hWnd = win32.GetForegroundWindow();
+
+            final exStyle = win32.GetWindowLongPtr(
+              hWnd,
+              win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+            );
+
+            win32.SetWindowLongPtr(
+              hWnd,
+              win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+              exStyle |
+                  win32.WINDOW_EX_STYLE.WS_EX_LAYERED |
+                  win32.WINDOW_EX_STYLE.WS_EX_TRANSPARENT,
+            );
+
+            stdout.write(
+              DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                const ControlEventMessage(ControlEvent.lock),
+              ),
+            );
+          },
+          color: Color(theme.onSurface),
+          icon: const Icon(Icons.lock),
+        ),
+        spacer,
+        IconButton(
           onPressed: textDisplayController.increaseLyricFontSize,
-          color: theme.onSurface,
+          color: Color(theme.onSurface),
           icon: const Icon(Icons.text_increase),
         ),
         spacer,
         IconButton(
           onPressed: textDisplayController.decreaseLyricFontSize,
-          color: theme.onSurface,
+          color: Color(theme.onSurface),
           icon: const Icon(Icons.text_decrease),
         ),
         spacer,
         IconButton(
           onPressed: () {
-            stdout.write(PlayerActionMessage(
-              action: PlayerAction.PREVIOUS_AUDIO,
-            ));
+            stdout.write(
+              DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                const ControlEventMessage(ControlEvent.previousAudio),
+              ),
+            );
           },
-          color: theme.onSurface,
+          color: Color(theme.onSurface),
           icon: const Icon(Icons.skip_previous),
         ),
         spacer,
         ValueListenableBuilder(
-          valueListenable: PlayerStates.instance.playerAction,
-          builder: (context, playerAction, _) => IconButton(
+          valueListenable: DesktopLyricController.instance.isPlaying,
+          builder: (context, isPlaying, _) => IconButton(
             onPressed: () {
-              stdout.write(PlayerActionMessage(
-                action: playerAction == PlayerAction.START
-                    ? PlayerAction.PAUSE
-                    : PlayerAction.START,
-              ));
+              stdout.write(
+                DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                  ControlEventMessage(
+                    isPlaying ? ControlEvent.pause : ControlEvent.start,
+                  ),
+                ),
+              );
             },
-            color: theme.onSurface,
-            icon: Icon(
-              playerAction == PlayerAction.START
-                  ? Icons.pause
-                  : Icons.play_arrow,
-            ),
+            color: Color(theme.onSurface),
+            icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
           ),
         ),
         spacer,
         IconButton(
           onPressed: () {
-            stdout.write(PlayerActionMessage(
-              action: PlayerAction.NEXT_AUDIO,
-            ));
+            stdout.write(
+              DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                const ControlEventMessage(ControlEvent.nextAudio),
+              ),
+            );
           },
-          color: theme.onSurface,
+          color: Color(theme.onSurface),
           icon: const Icon(Icons.skip_next),
         ),
         spacer,
@@ -74,11 +105,13 @@ class ActionRow extends StatelessWidget {
         spacer,
         IconButton(
           onPressed: () {
-            stdout.write(PlayerActionMessage(
-              action: PlayerAction.CLOSE_DESKTOP_LYRIC,
-            ));
+            stdout.write(
+              DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                const ControlEventMessage(ControlEvent.close),
+              ),
+            );
           },
-          color: theme.onSurface,
+          color: Color(theme.onSurface),
           icon: const Icon(Icons.close),
         ),
       ],
@@ -104,7 +137,7 @@ class _ShowColorSelectorBtn extends StatelessWidget {
         ALWAYS_SHOW_ACTION_ROW = false;
       },
       style: MenuStyle(
-        backgroundColor: WidgetStatePropertyAll(theme.surfaceContainer),
+        backgroundColor: WidgetStatePropertyAll(Color(theme.surfaceContainer)),
         elevation: const WidgetStatePropertyAll(8),
       ),
       menuChildren: [
@@ -123,7 +156,7 @@ class _ShowColorSelectorBtn extends StatelessWidget {
             controller.open(position: const Offset(0, 44));
           }
         },
-        color: theme.onSurface,
+        color: Color(theme.onSurface),
         icon: const Icon(Icons.palette),
       ),
     );
@@ -162,7 +195,8 @@ class _ColorTile extends StatelessWidget {
           },
           child: textDisplayController.hasSpecifiedColor &&
                   textDisplayController.specifiedColor == color
-              ? const Center(child: Icon(Icons.check, color: Colors.white, size: 16))
+              ? const Center(
+                  child: Icon(Icons.check, color: Colors.white, size: 16))
               : const SizedBox.shrink(),
         ),
       ),

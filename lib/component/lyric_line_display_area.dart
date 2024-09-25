@@ -1,6 +1,6 @@
 import 'package:desktop_lyric/component/foreground.dart';
 import 'package:desktop_lyric/message.dart';
-import 'package:desktop_lyric/player_states.dart';
+import 'package:desktop_lyric/desktop_lyric_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,10 +14,10 @@ class LyricLineDisplayArea extends StatelessWidget {
 
     final textColor = textDisplayController.hasSpecifiedColor
         ? textDisplayController.specifiedColor
-        : theme.primary;
+        : Color(theme.primary);
 
     return ValueListenableBuilder(
-      valueListenable: PlayerStates.instance.lyricLine,
+      valueListenable: DesktopLyricController.instance.lyricLine,
       builder: (context, lyricLine, _) {
         final contentText = Text(
           key: LYRIC_TEXT_KEY,

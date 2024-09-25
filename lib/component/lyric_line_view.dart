@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:desktop_lyric/component/lyric_line_display_area.dart';
-import 'package:desktop_lyric/player_states.dart';
+import 'package:desktop_lyric/desktop_lyric_controller.dart';
 import 'package:flutter/material.dart';
 
 class LyricLineView extends StatefulWidget {
@@ -20,8 +20,8 @@ class _LyricLineViewState extends State<LyricLineView> {
   void initState() {
     super.initState();
 
-    PlayerStates.instance.lyricLine.addListener(() {
-      final line = PlayerStates.instance.lyricLine.value;
+    DesktopLyricController.instance.lyricLine.addListener(() {
+      final line = DesktopLyricController.instance.lyricLine.value;
 
       /// 减去启动延时和滚动结束停留时间
       final Duration lastTime = line.length - waitFor - waitFor;

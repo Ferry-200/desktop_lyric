@@ -1,7 +1,7 @@
 import 'package:desktop_lyric/component/action_row.dart';
 import 'package:desktop_lyric/component/lyric_line_view.dart';
 import 'package:desktop_lyric/component/now_playing_info.dart';
-import 'package:desktop_lyric/player_states.dart';
+import 'package:desktop_lyric/desktop_lyric_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
@@ -53,7 +53,7 @@ class TextDisplayController extends ChangeNotifier {
   /// true: 使用指定的颜色
   /// false: 跟随播放器主题（默认）
   bool hasSpecifiedColor = false;
-  Color specifiedColor = PlayerStates.instance.themeChanged.value.primary;
+  Color specifiedColor = Color(DesktopLyricController.instance.theme.value.primary);
 
   /// 每次增加 1
   void increaseLyricFontSize() {

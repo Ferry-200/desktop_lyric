@@ -1,6 +1,6 @@
 import 'package:desktop_lyric/component/foreground.dart';
 import 'package:desktop_lyric/message.dart';
-import 'package:desktop_lyric/player_states.dart';
+import 'package:desktop_lyric/desktop_lyric_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,11 +14,11 @@ class NowPlayingInfo extends StatelessWidget {
 
     final textColor = textDisplayController.hasSpecifiedColor
         ? textDisplayController.specifiedColor
-        : theme.primary;
+        : Color(theme.primary);
     final textStyle = TextStyle(color: textColor);
 
     return ValueListenableBuilder(
-      valueListenable: PlayerStates.instance.nowPlaying,
+      valueListenable: DesktopLyricController.instance.nowPlaying,
       builder: (context, nowPlaying, _) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,

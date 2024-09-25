@@ -1,5 +1,5 @@
 import 'package:desktop_lyric/component/desktop_lyric_body.dart';
-import 'package:desktop_lyric/player_states.dart';
+import 'package:desktop_lyric/desktop_lyric_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  PlayerStates.initWithArgs(args);
+  DesktopLyricController.initWithArgs(args);
 
   WindowOptions windowOptions = const WindowOptions(
     size: Size(800, 122),
@@ -32,11 +32,11 @@ class DesktopLyricApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: PlayerStates.instance.themeMode,
-      builder: (context, themeMode, _) => ValueListenableProvider.value(
-        value: PlayerStates.instance.themeChanged,
+      valueListenable: DesktopLyricController.instance.isDarkMode,
+      builder: (context, isDarkMode, _) => ValueListenableProvider.value(
+        value: DesktopLyricController.instance.theme,
         child: MaterialApp(
-          themeMode: themeMode,
+          themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
           localizationsDelegates: GlobalMaterialLocalizations.delegates,
           supportedLocales: supportedLocales,
           home: const DesktopLyricBody(),
