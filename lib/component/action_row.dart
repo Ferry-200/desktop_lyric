@@ -18,103 +18,111 @@ class ActionRow extends StatelessWidget {
 
     final textDisplayController = context.read<TextDisplayController>();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      alignment: Alignment.centerRight,
       children: [
-        IconButton(
-          onPressed: () async {
-            hWnd = win32.GetForegroundWindow();
+        Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: IconButton(
+            onPressed: () async {
+              hWnd = win32.GetForegroundWindow();
 
-            if (hWnd != null) {
-              final exStyle = win32.GetWindowLongPtr(
-                hWnd!,
-                win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
-              );
+              if (hWnd != null) {
+                final exStyle = win32.GetWindowLongPtr(
+                  hWnd!,
+                  win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+                );
 
-              win32.SetWindowLongPtr(
-                hWnd!,
-                win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
-                exStyle |
-                    win32.WINDOW_EX_STYLE.WS_EX_LAYERED |
-                    win32.WINDOW_EX_STYLE.WS_EX_TRANSPARENT,
-              );
+                win32.SetWindowLongPtr(
+                  hWnd!,
+                  win32.WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+                  exStyle |
+                      win32.WINDOW_EX_STYLE.WS_EX_LAYERED |
+                      win32.WINDOW_EX_STYLE.WS_EX_TRANSPARENT,
+                );
 
-              stdout.write(
-                DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                  const ControlEventMessage(ControlEvent.lock),
-                ),
-              );
-            }
-          },
-          color: Color(theme.onSurface),
-          icon: const Icon(Icons.lock),
-        ),
-        spacer,
-        IconButton(
-          onPressed: textDisplayController.increaseLyricFontSize,
-          color: Color(theme.onSurface),
-          icon: const Icon(Icons.text_increase),
-        ),
-        spacer,
-        IconButton(
-          onPressed: textDisplayController.decreaseLyricFontSize,
-          color: Color(theme.onSurface),
-          icon: const Icon(Icons.text_decrease),
-        ),
-        spacer,
-        IconButton(
-          onPressed: () {
-            stdout.write(
-              DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                const ControlEventMessage(ControlEvent.previousAudio),
-              ),
-            );
-          },
-          color: Color(theme.onSurface),
-          icon: const Icon(Icons.skip_previous),
-        ),
-        spacer,
-        ValueListenableBuilder(
-          valueListenable: DesktopLyricController.instance.isPlaying,
-          builder: (context, isPlaying, _) => IconButton(
-            onPressed: () {
-              stdout.write(
-                DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                  ControlEventMessage(
-                    isPlaying ? ControlEvent.pause : ControlEvent.start,
+                stdout.write(
+                  DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                    const ControlEventMessage(ControlEvent.lock),
                   ),
-                ),
-              );
+                );
+              }
             },
             color: Color(theme.onSurface),
-            icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+            icon: const Icon(Icons.lock),
           ),
         ),
-        spacer,
-        IconButton(
-          onPressed: () {
-            stdout.write(
-              DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                const ControlEventMessage(ControlEvent.nextAudio),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: textDisplayController.increaseLyricFontSize,
+              color: Color(theme.onSurface),
+              icon: const Icon(Icons.text_increase),
+            ),
+            spacer,
+            IconButton(
+              onPressed: textDisplayController.decreaseLyricFontSize,
+              color: Color(theme.onSurface),
+              icon: const Icon(Icons.text_decrease),
+            ),
+            spacer,
+            IconButton(
+              onPressed: () {
+                stdout.write(
+                  DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                    const ControlEventMessage(ControlEvent.previousAudio),
+                  ),
+                );
+              },
+              color: Color(theme.onSurface),
+              icon: const Icon(Icons.skip_previous),
+            ),
+            spacer,
+            ValueListenableBuilder(
+              valueListenable: DesktopLyricController.instance.isPlaying,
+              builder: (context, isPlaying, _) => IconButton(
+                onPressed: () {
+                  stdout.write(
+                    DesktopLyricMessageType.ControlEventMessage
+                        .buildMessageJson(
+                      ControlEventMessage(
+                        isPlaying ? ControlEvent.pause : ControlEvent.start,
+                      ),
+                    ),
+                  );
+                },
+                color: Color(theme.onSurface),
+                icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
               ),
-            );
-          },
-          color: Color(theme.onSurface),
-          icon: const Icon(Icons.skip_next),
-        ),
-        spacer,
-        const _ShowColorSelectorBtn(),
-        spacer,
-        IconButton(
-          onPressed: () {
-            stdout.write(
-              DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                const ControlEventMessage(ControlEvent.close),
-              ),
-            );
-          },
-          color: Color(theme.onSurface),
-          icon: const Icon(Icons.close),
+            ),
+            spacer,
+            IconButton(
+              onPressed: () {
+                stdout.write(
+                  DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                    const ControlEventMessage(ControlEvent.nextAudio),
+                  ),
+                );
+              },
+              color: Color(theme.onSurface),
+              icon: const Icon(Icons.skip_next),
+            ),
+            spacer,
+            const _ShowColorSelectorBtn(),
+            spacer,
+            IconButton(
+              onPressed: () {
+                stdout.write(
+                  DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
+                    const ControlEventMessage(ControlEvent.close),
+                  ),
+                );
+              },
+              color: Color(theme.onSurface),
+              icon: const Icon(Icons.close),
+            ),
+          ],
         ),
       ],
     );
