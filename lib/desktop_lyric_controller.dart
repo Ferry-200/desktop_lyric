@@ -31,6 +31,7 @@ class DesktopLyricController {
     _instance = DesktopLyricController._();
     try {
       final initArgs = InitArgsMessage.fromJson(json.decode(args.first));
+      _instance!.isPlaying.value = initArgs.isPlaying;
       _instance!.nowPlaying.value = NowPlayingChangedMessage(
         initArgs.title,
         initArgs.artist,
