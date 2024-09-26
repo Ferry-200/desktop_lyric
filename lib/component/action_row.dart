@@ -42,9 +42,8 @@ class ActionRow extends StatelessWidget {
                 );
 
                 stdout.write(
-                  DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                    const ControlEventMessage(ControlEvent.lock),
-                  ),
+                  const ControlEventMessage(ControlEvent.lock)
+                      .buildMessageJson(),
                 );
               }
             },
@@ -70,9 +69,8 @@ class ActionRow extends StatelessWidget {
             IconButton(
               onPressed: () {
                 stdout.write(
-                  DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                    const ControlEventMessage(ControlEvent.previousAudio),
-                  ),
+                  const ControlEventMessage(ControlEvent.previousAudio)
+                      .buildMessageJson(),
                 );
               },
               color: Color(theme.onSurface),
@@ -84,12 +82,9 @@ class ActionRow extends StatelessWidget {
               builder: (context, isPlaying, _) => IconButton(
                 onPressed: () {
                   stdout.write(
-                    DesktopLyricMessageType.ControlEventMessage
-                        .buildMessageJson(
-                      ControlEventMessage(
-                        isPlaying ? ControlEvent.pause : ControlEvent.start,
-                      ),
-                    ),
+                    ControlEventMessage(
+                      isPlaying ? ControlEvent.pause : ControlEvent.start,
+                    ).buildMessageJson(),
                   );
                 },
                 color: Color(theme.onSurface),
@@ -100,9 +95,8 @@ class ActionRow extends StatelessWidget {
             IconButton(
               onPressed: () {
                 stdout.write(
-                  DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                    const ControlEventMessage(ControlEvent.nextAudio),
-                  ),
+                  const ControlEventMessage(ControlEvent.nextAudio)
+                      .buildMessageJson(),
                 );
               },
               color: Color(theme.onSurface),
@@ -114,9 +108,8 @@ class ActionRow extends StatelessWidget {
             IconButton(
               onPressed: () {
                 stdout.write(
-                  DesktopLyricMessageType.ControlEventMessage.buildMessageJson(
-                    const ControlEventMessage(ControlEvent.close),
-                  ),
+                  const ControlEventMessage(ControlEvent.close)
+                      .buildMessageJson(),
                 );
               },
               color: Color(theme.onSurface),

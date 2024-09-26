@@ -6,28 +6,17 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'message.g.dart';
 
+String getMessageTypeName<T extends Message>() => T.toString();
+
 abstract class Message {
   const Message();
 
   Map<String, dynamic> _toJson();
-}
 
-enum DesktopLyricMessageType {
-  ControlEventMessage,
-  PreferenceChangedMessage,
-  PlayerStateChangedMessage,
-  NowPlayingChangedMessage,
-  LyricLineChangedMessage,
-  ThemeModeChangedMessage,
-  ThemeChangedMessage,
-  UnlockMessage;
-
-  String buildMessageJson(Message message) {
-    return json.encode({
-      "type": name,
-      "message": message._toJson(),
-    });
-  }
+  String buildMessageJson() => json.encode({
+        "type": runtimeType.toString(),
+        "message": _toJson(),
+      });
 }
 
 @JsonEnum(valueField: "code")

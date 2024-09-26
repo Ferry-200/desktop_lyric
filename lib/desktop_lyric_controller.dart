@@ -63,26 +63,23 @@ class DesktopLyricController {
         final String type = messageMap["type"];
         final content = messageMap["message"] as Map<String, dynamic>;
 
-        if (type == DesktopLyricMessageType.PlayerStateChangedMessage.name) {
+        if (type == getMessageTypeName<PlayerStateChangedMessage>()) {
           final playerState = PlayerStateChangedMessage.fromJson(content);
           isPlaying.value = playerState.playing;
-        } else if (type ==
-            DesktopLyricMessageType.NowPlayingChangedMessage.name) {
+        } else if (type == getMessageTypeName<NowPlayingChangedMessage>()) {
           final nowPlayingMessage = NowPlayingChangedMessage.fromJson(content);
           nowPlaying.value = nowPlayingMessage;
           lyricLine.value = const LyricLineChangedMessage("", Duration.zero);
-        } else if (type ==
-            DesktopLyricMessageType.LyricLineChangedMessage.name) {
+        } else if (type == getMessageTypeName<LyricLineChangedMessage>()) {
           final lyricLineMessage = LyricLineChangedMessage.fromJson(content);
           lyricLine.value = lyricLineMessage;
-        } else if (type ==
-            DesktopLyricMessageType.ThemeModeChangedMessage.name) {
+        } else if (type == getMessageTypeName<ThemeModeChangedMessage>()) {
           final themeMode = ThemeModeChangedMessage.fromJson(content);
           isDarkMode.value = themeMode.darkMode;
-        } else if (type == DesktopLyricMessageType.ThemeChangedMessage.name) {
+        } else if (type == getMessageTypeName<ThemeChangedMessage>()) {
           final themeMessage = ThemeChangedMessage.fromJson(content);
           theme.value = themeMessage;
-        } else if (type == DesktopLyricMessageType.UnlockMessage.name) {
+        } else if (type == getMessageTypeName<UnlockMessage>()) {
           if (hWnd != null) {
             final exStyle = win32.GetWindowLongPtr(
               hWnd!,

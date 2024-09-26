@@ -138,7 +138,7 @@ Map<String, dynamic> _$ThemeChangedMessageToJson(
     };
 
 UnlockMessage _$UnlockMessageFromJson(Map<String, dynamic> json) =>
-    UnlockMessage();
+    const UnlockMessage();
 
 Map<String, dynamic> _$UnlockMessageToJson(UnlockMessage instance) =>
     <String, dynamic>{};
