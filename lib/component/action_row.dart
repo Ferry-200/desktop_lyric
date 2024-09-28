@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:desktop_lyric/component/desktop_lyric_body.dart';
 import 'package:desktop_lyric/component/foreground.dart';
 import 'package:desktop_lyric/message.dart';
 import 'package:desktop_lyric/desktop_lyric_controller.dart';
@@ -144,6 +145,32 @@ class _ShowColorSelectorBtn extends StatelessWidget {
         elevation: const WidgetStatePropertyAll(8),
       ),
       menuChildren: [
+        const Padding(
+          padding: EdgeInsets.only(left: 4),
+          child: Text("背景不透明度"),
+        ),
+        SliderTheme(
+          data: SliderThemeData(
+            thumbColor: Color(theme.primary),
+            overlayColor: Color(theme.primary).withOpacity(0.08),
+            activeTrackColor: Color(theme.primary),
+            inactiveTrackColor: Color(theme.primary).withOpacity(0.15),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 18),
+          ),
+          child: ValueListenableBuilder(
+            valueListenable: BACKGROUND_OPACITY,
+            builder: (context, opacity, _) => Slider(
+              value: opacity,
+              onChanged: (newOpacity) {
+                BACKGROUND_OPACITY.value = newOpacity;
+              },
+            ),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(left: 4),
+          child: Text("文字颜色"),
+        ),
         Wrap(
           children: List.generate(
             Colors.primaries.length,
@@ -156,7 +183,7 @@ class _ShowColorSelectorBtn extends StatelessWidget {
           if (controller.isOpen) {
             controller.close();
           } else {
-            controller.open(position: const Offset(0, 44));
+            controller.open();
           }
         },
         color: Color(theme.onSurface),
