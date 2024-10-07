@@ -145,9 +145,12 @@ class _ShowColorSelectorBtn extends StatelessWidget {
         elevation: const WidgetStatePropertyAll(8),
       ),
       menuChildren: [
-        const Padding(
-          padding: EdgeInsets.only(left: 4),
-          child: Text("背景不透明度"),
+        Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: Text(
+            "背景不透明度",
+            style: TextStyle(color: Color(theme.onSurface)),
+          ),
         ),
         SliderTheme(
           data: SliderThemeData(
@@ -167,9 +170,12 @@ class _ShowColorSelectorBtn extends StatelessWidget {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 4),
-          child: Text("文字颜色"),
+        Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: Text(
+            "文字颜色",
+            style: TextStyle(color: Color(theme.onSurface)),
+          ),
         ),
         Wrap(
           children: List.generate(
